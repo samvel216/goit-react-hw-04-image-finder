@@ -2,7 +2,7 @@
   "name": "react-homework-template",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://samvel216.github.io/goit-react-hw-03-image-finder/",
+  "homepage": "https://samvel216.github.io/goit-react-hw-04-image-finder/",
   "dependencies": {
     "@marcius-studio/vue-notice": "^0.1.0",
     "@testing-library/jest-dom": "^5.16.3",
