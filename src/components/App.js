@@ -12,10 +12,8 @@ export const App = () => {
   const [inputValue, setInputValue] = useState("");
   const [featchAnswer, setFeatchAnswer] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [formAnswer, setFormAnswer] = useState([]);
   const [modal, setModal] = useState("");
-  const [staticPage, setStaticPage] = useState(1);
   const [page, setPage] = useState(1);
   const [testInputValue, setTestInputValue] = useState("");
   const [btnBull, setBtnBull] = useState(false);
@@ -29,22 +27,22 @@ export const App = () => {
           `https://pixabay.com/api/?key=25829812-d39cfe0a6889efb95d5c21ab8&q=${inputValue}&webformatURL&largeImageURL&page=${page}&per_page=${perPage}&total`
         );
         const users = await response.json();
-        if (formAnswer.length === 0) {
+        if (page === 1) {
           setFormAnswer(users.hits);
           setBtnBull(true);
         }
         if (users.hits.length < perPage) {
           setBtnBull(false);
         }
-        if (formAnswer.length !== 0) {
-          setFormAnswer([...formAnswer, ...users.hits])
+        if (page > 1) {
+          setFormAnswer([...featchAnswer, ...users.hits])
           setBtnBull(true);
         }
         if (users.hits.length < 12) {
           setBtnBull(false);
         }
       } catch (error) {
-        setError(error);
+        console.log(error)
       } finally {
         setIsLoading(false);
       }
@@ -52,13 +50,14 @@ export const App = () => {
     if (inputValue !== "") {
       fetchData();
     }
-  }, [inputValue, page]);
+  }, [inputValue, page, featchAnswer]);
 
   const onClose = () => {
     setModal("");
   }
   const nextPage = () => {
     setPage(page + 1);
+    setFeatchAnswer(formAnswer)
   };
   const handleChange = event => {
     event.preventDefault();
@@ -66,7 +65,7 @@ export const App = () => {
   };
   const formSubmit = event => {
     event.preventDefault();
-    setPage(staticPage);
+    setPage(1);
     setFormAnswer(featchAnswer);
     setInputValue(testInputValue);
     setFeatchAnswer([]);
