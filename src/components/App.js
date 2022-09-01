@@ -10,12 +10,10 @@ import styles from '../components/Loader/Loader.module.css';
 
 export const App = () => {
   const [inputValue, setInputValue] = useState("");
-  const [featchAnswer, setFeatchAnswer] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [formAnswer, setFormAnswer] = useState([]);
   const [modal, setModal] = useState("");
-  const [page, setPage] = useState(1);
-  const [testInputValue, setTestInputValue] = useState("");
+  const [page, setPage] = useState(0);
   const [btnBull, setBtnBull] = useState(false);
 
   useEffect(() => {
@@ -35,7 +33,7 @@ export const App = () => {
           setBtnBull(false);
         }
         if (page > 1) {
-          setFormAnswer([...featchAnswer, ...users.hits])
+          setFormAnswer([...formAnswer, ...users.hits])
           setBtnBull(true);
         }
         if (users.hits.length < 12) {
@@ -50,28 +48,25 @@ export const App = () => {
     if (inputValue !== "") {
       fetchData();
     }
-  }, [inputValue, page, featchAnswer]);
+  }, [page]);
 
   const onClose = () => {
     setModal("");
   }
   const nextPage = () => {
     setPage(page + 1);
-    setFeatchAnswer(formAnswer)
   };
   const handleChange = event => {
     event.preventDefault();
-    setTestInputValue(event.target.value);
+    setInputValue(event.target.value);
   };
   const formSubmit = event => {
     event.preventDefault();
+    setFormAnswer([]);
     setPage(1);
-    setFormAnswer(featchAnswer);
-    setInputValue(testInputValue);
-    setFeatchAnswer([]);
+
   };
   const handleClick = event => {
-    event.preventDefault();
     setModal(event.target.src)
   };
 
@@ -79,7 +74,7 @@ export const App = () => {
     <div className={styles.container}>
 
       <Searchbar
-        value={testInputValue}
+        value={inputValue}
         handleChange={handleChange}
         formSubmit={formSubmit}
       />
